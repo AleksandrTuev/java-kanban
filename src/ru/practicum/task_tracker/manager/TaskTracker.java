@@ -1,5 +1,6 @@
 package ru.practicum.task_tracker.manager;
 
+import ru.practicum.task_tracker.task_status.Status;
 import ru.practicum.task_tracker.tasks.Epic;
 import ru.practicum.task_tracker.tasks.Subtask;
 import ru.practicum.task_tracker.tasks.Task;
@@ -51,7 +52,7 @@ public class TaskTracker {
     }
 
     public void deleteAllSubtasks() { //удаление подзадач
-        for (Integer integer : epics.keySet()) { //вытягиваем список id подзад
+        for (Integer integer : epics.keySet()) { //вытягиваем список id подзадач
             Epic epic = epics.get(integer);
             ArrayList<Integer> subtaskIds = epic.getSubtaskIds();
             subtaskIds.clear(); // очищаем список id подзадач
@@ -153,22 +154,22 @@ public class TaskTracker {
         Epic epic = epics.get(epicId);
         ArrayList<Integer> subtaskIds = epic.getSubtaskIds();
         if (subtaskIds.isEmpty()) {
-            epic.setStatus("NEW");
+            epic.setStatus(Status.NEW);
             return;
         }
 
-        String status = null;
+        Status status = null;
         for (Integer subtaskId : subtaskIds) {
             Subtask subtask = subtasks.get(subtaskId);
             if (status == null) {
                 status = subtask.getStatus();
                 continue;
             }
-            if (status.equals(subtask.getStatus())
-                    && !status.equals("IN_PROGRESS")) {
+            if ((subtask.getStatus() == status)
+                    && !status.equals(Status.IN_PROGRESS)) {
                 continue;
             }
-            epic.setStatus("IN_PROGRESS");
+            epic.setStatus(Status.IN_PROGRESS);
         }
         epic.setStatus(status);
     }
