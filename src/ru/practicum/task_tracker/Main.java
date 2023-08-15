@@ -1,6 +1,5 @@
 package ru.practicum.task_tracker;
 
-import ru.practicum.task_tracker.manager.InMemoryTaskManager;
 import ru.practicum.task_tracker.manager.Managers;
 import ru.practicum.task_tracker.manager.TaskManager;
 import ru.practicum.task_tracker.task_status.Status;
@@ -12,14 +11,6 @@ public class Main {
 
     public static void main(String[] args) {
         TaskManager taskManager = Managers.getDefault();
-/*
-Задание по тестированию
-- Создайте 2 задачи, один эпик с 2 подзадачами, а другой эпик с 1 подзадачей.
-- Распечатайте списки эпиков, задач и подзадач, через System.out.println(..)
-- Измените статусы созданных объектов, распечатайте. Проверьте, что статус задачи и подзадачи сохранился, а статус эпика рассчитался по статусам подзадач.
-- И, наконец, попробуйте удалить одну из задач и один из эпиков.
-*/
-//      После проверки метод main будет очищен
 
         Task task1 = new Task("Task 1", "Description 1");
         int taskId1 = taskManager.addNewTask(task1);
