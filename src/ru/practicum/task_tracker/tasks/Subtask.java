@@ -3,6 +3,7 @@ package ru.practicum.task_tracker.tasks;
 import ru.practicum.task_tracker.task_status.Status;
 
 public class Subtask extends Task{
+    //Семён привет!
     //Если использовать private int epicId, то измение id эпика возможно
     //Чтобы избежить этого лучше воспользоваться модификатором final и зафиксировать полученное значение
     private final int epicId;
