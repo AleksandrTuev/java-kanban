@@ -10,15 +10,9 @@ import java.util.List;
 public interface TaskManager {
     HashMap<Integer, Task> getTasks();
 
-    void setTasks(HashMap<Integer, Task> tasks);
-
     HashMap<Integer, Epic> getEpics();
 
-    void setEpics(HashMap<Integer, Epic> epics);
-
     HashMap<Integer, Subtask> getSubtasks();
-
-    void setSubtasks(HashMap<Integer, Subtask> subtasks);
 
     void deleteAllTasks();
 

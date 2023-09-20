@@ -10,9 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
-    private HashMap<Integer, Task> tasks = new HashMap<>();
-    private HashMap<Integer, Epic> epics = new HashMap<>();
-    private HashMap<Integer, Subtask> subtasks = new HashMap<>();
+    private final HashMap<Integer, Task> tasks = new HashMap<>();
+    private final HashMap<Integer, Epic> epics = new HashMap<>();
+    private final HashMap<Integer, Subtask> subtasks = new HashMap<>();
     private final HistoryManager historyManager = Managers.getDefaultHistory();
     private int generateId = 0;
 
@@ -22,28 +22,13 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void setTasks(HashMap<Integer, Task> tasks) {
-        this.tasks = tasks;
-    }
-
-    @Override
     public HashMap<Integer, Epic> getEpics() {
         return epics;
     }
 
     @Override
-    public void setEpics(HashMap<Integer, Epic> epics) {
-        this.epics = epics;
-    }
-
-    @Override
     public HashMap<Integer, Subtask> getSubtasks() {
         return subtasks;
-    }
-
-    @Override
-    public void setSubtasks(HashMap<Integer, Subtask> subtasks) {
-        this.subtasks = subtasks;
     }
 
     private int generateId() {
@@ -148,6 +133,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void removeTask(int taskId) { //удаление задачи
         tasks.remove(taskId);
+        historyManager.remove(taskId); //удаление из истории
     }
 
     @Override
@@ -156,8 +142,10 @@ public class InMemoryTaskManager implements TaskManager {
         ArrayList<Integer> subtaskIds = epic.getSubtaskIds();
         for (Integer subtaskId : subtaskIds) {
             subtasks.remove(subtaskId);
+            historyManager.remove(subtaskId); //удаление из истории
         }
         epics.remove(epicId);
+        historyManager.remove(epicId); //удаление из истории
     }
 
     @Override
@@ -173,6 +161,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
         subtaskIds.remove(idIndex); //удаляем id подзадачи из списка эпика
         subtasks.remove(subtask.getId()); //удаляем подзадачу из мапы subtasks
+        historyManager.remove(subtaskId); //удаление из истории
         updateEpicStatus(subtask.getEpicId());
     }
 
