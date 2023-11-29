@@ -2,7 +2,6 @@ package ru.practicum.task_tracker;
 
 import ru.practicum.task_tracker.manager.Managers;
 import ru.practicum.task_tracker.manager.TaskManager;
-import ru.practicum.task_tracker.task_status.Status;
 import ru.practicum.task_tracker.tasks.Epic;
 import ru.practicum.task_tracker.tasks.Subtask;
 import ru.practicum.task_tracker.tasks.Task;
@@ -11,8 +10,6 @@ public class Main {
 
     public static void main(String[] args) {
         TaskManager taskManager = Managers.getDefault();
-        //20/09/23
-        //Семён привет!
         //Тестирование работы программы согласно тех. задания
 
         Task task1 = new Task("Task 1", "Description 1");

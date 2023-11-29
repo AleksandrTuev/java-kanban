@@ -154,9 +154,9 @@ public class InMemoryTaskManager implements TaskManager {
         Epic epic = epics.get(subtask.getEpicId());
         ArrayList<Integer> subtaskIds = epic.getSubtaskIds();
         int idIndex = 0;
-        for (int i = 0; i < subtaskIds.size(); i++) {
-            if (subtaskIds.get(i) == subtaskId) {
-                idIndex = i;
+        for (Integer id : subtaskIds) {
+            if (subtaskIds.get(id) == subtaskId) {
+                idIndex = id;
             }
         }
         subtaskIds.remove(idIndex); //удаляем id подзадачи из списка эпика

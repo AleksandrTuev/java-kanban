@@ -24,7 +24,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     private void removeNode(Node node) {
-        //основная логика по удаления, т.е. переключение ссылок и т.д.
+        //основная логика по удалению, т.е. переключение ссылок и т.д.
         if (node.prev != null){
             //нода не первая
             node.prev.next = node.next;
@@ -58,7 +58,6 @@ public class InMemoryHistoryManager implements HistoryManager {
         } else {
             oldLast.next =newNode;
         }
-
     }
 
     @Override
@@ -86,11 +85,13 @@ public class InMemoryHistoryManager implements HistoryManager {
         removeNode(node);
     }
 
-
     public static class Node {
-        Task task;
-        Node prev;
-        Node next;
+        //Семён привет!
+        //Можно выделить в отдельный класс, но данная реализация является более предпочтительной.
+        //Это внутренний класс и он не имеет смысла без списка
+        public Task task;
+        public Node prev;
+        public Node next;
 
         public Node(Node prev, Task task, Node next) {
             this.prev = prev;
