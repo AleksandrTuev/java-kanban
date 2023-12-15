@@ -1,5 +1,7 @@
 package ru.practicum.task_tracker.tasks;
 
+import ru.practicum.task_tracker.manager.task_type.TaskType;
+
 import java.util.ArrayList;
 
 public class Epic extends Task{
@@ -20,6 +22,11 @@ public class Epic extends Task{
 
     public void addSubtaskId(int subtaskId){
         subtaskIds.add(subtaskId);
+    }
+
+    @Override
+    public TaskType getType(){
+        return TaskType.EPIC;
     }
 
     @Override

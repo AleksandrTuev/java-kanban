@@ -1,5 +1,6 @@
 package ru.practicum.task_tracker.tasks;
 
+import ru.practicum.task_tracker.manager.task_type.TaskType;
 import ru.practicum.task_tracker.task_status.Status;
 
 public class Subtask extends Task{
@@ -21,6 +22,11 @@ public class Subtask extends Task{
 
     public int getEpicId() {
         return epicId;
+    }
+
+    @Override
+    public TaskType getType(){
+        return TaskType.SUBTASK;
     }
 
     @Override

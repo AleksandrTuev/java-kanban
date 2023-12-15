@@ -1,5 +1,6 @@
 package ru.practicum.task_tracker.tasks;
 
+import ru.practicum.task_tracker.manager.task_type.TaskType;
 import ru.practicum.task_tracker.task_status.Status;
 
 import java.util.Objects;
@@ -16,7 +17,6 @@ public class Task {
         this.status = Status.NEW;
     }
 
-    //конструктор для проверки метода обновления задачи. аргументы - id, name, description, status
     public Task(Integer id, String name, String description, Status status) {
         this.id = id;
         this.name = name;
@@ -54,6 +54,10 @@ public class Task {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public TaskType getType(){
+        return TaskType.TASK;
     }
 
     @Override
