@@ -1,6 +1,6 @@
 package ru.practicum.task_tracker.tasks;
 
-import ru.practicum.task_tracker.manager.task_type.TaskType;
+import ru.practicum.task_tracker.model.task_type.TaskType;
 
 import java.util.ArrayList;
 

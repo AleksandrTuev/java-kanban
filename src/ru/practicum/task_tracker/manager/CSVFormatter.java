@@ -1,7 +1,7 @@
 package ru.practicum.task_tracker.manager;
 
-import ru.practicum.task_tracker.manager.task_type.TaskType;
-import ru.practicum.task_tracker.task_status.Status;
+import ru.practicum.task_tracker.model.task_type.TaskType;
+import ru.practicum.task_tracker.model.task_status.Status;
 import ru.practicum.task_tracker.tasks.Epic;
 import ru.practicum.task_tracker.tasks.Subtask;
 import ru.practicum.task_tracker.tasks.Task;

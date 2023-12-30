@@ -1,6 +1,6 @@
 package ru.practicum.task_tracker.manager;
 
-import ru.practicum.task_tracker.manager.exception.ManagerSaveException;
+import ru.practicum.task_tracker.exception.ManagerSaveException;
 import ru.practicum.task_tracker.tasks.Epic;
 import ru.practicum.task_tracker.tasks.Subtask;
 import ru.practicum.task_tracker.tasks.Task;
@@ -18,34 +18,33 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     public static FileBackedTaskManager loadFromFile(File file){
         FileBackedTaskManager newTaskManager = new FileBackedTaskManager(file);
-        List<String> test = new ArrayList<>();
+        List<String> lines = new ArrayList<>();
 
         try(BufferedReader reader = new BufferedReader(new FileReader(file))){
             Task task;
 
             while (reader.ready()){
-                String string = reader.readLine();
-                test.add(string);
+                String line = reader.readLine();
+                lines.add(line);
             }
 
-            for (int i = 1; i < test.size(); i++) {
-                if (test.get(i).isEmpty()){
-                    List<Integer> ids = CSVFormatter.historyFromString(test.get(i+1));
-
-                    for (int j = 0; j < ids.size(); j++) {
-                        if (newTaskManager.getTasks().containsKey(ids.get(j))){
-                            newTaskManager.setHistory(newTaskManager.getTasks().get(ids.get(j)));
+            for (int i = 1; i < lines.size(); i++) {
+                if (lines.get(i).isEmpty()){
+                    List<Integer> ids = CSVFormatter.historyFromString(lines.get(i+1));
+                    for (Integer id : ids) {
+                        if (newTaskManager.getTasks().containsKey(id)){
+                            newTaskManager.setHistory(newTaskManager.getTasks().get(id));
                         }
-                        if (newTaskManager.getEpics().containsKey(ids.get(j))){
-                            newTaskManager.setHistory(newTaskManager.getEpics().get(ids.get(j)));
+                        if (newTaskManager.getEpics().containsKey(id)){
+                            newTaskManager.setHistory(newTaskManager.getEpics().get(id));
                         }
-                        if (newTaskManager.getSubtasks().containsKey(ids.get(j))){
-                            newTaskManager.setHistory(newTaskManager.getSubtasks().get(ids.get(j)));
+                        if (newTaskManager.getSubtasks().containsKey(id)){
+                            newTaskManager.setHistory(newTaskManager.getSubtasks().get(id));
                         }
                     }
                     break;
                 } else {
-                    task = CSVFormatter.fromString(test.get(i));
+                    task = CSVFormatter.fromString(lines.get(i));
                     switch (task.getType()){
                         case EPIC:
                             newTaskManager.addEpic((Epic) task, newTaskManager);
@@ -90,7 +89,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             writer.write(CSVFormatter.historyToString(historyManager));
 
         } catch (IOException e) {
-            throw new ManagerSaveException("Ошибка при сохранении в файл");
+            throw new ManagerSaveException("Ошибка при сохранении в файл", e);
         }
 
     }

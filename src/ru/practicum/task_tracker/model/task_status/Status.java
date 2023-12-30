@@ -1,4 +1,4 @@
-package ru.practicum.task_tracker.task_status;
+package ru.practicum.task_tracker.model.task_status;
 
 public enum Status {
     NEW,

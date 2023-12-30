@@ -1,4 +1,4 @@
-package ru.practicum.task_tracker.manager.task_type;
+package ru.practicum.task_tracker.model.task_type;
 
 public enum TaskType {
     TASK,
