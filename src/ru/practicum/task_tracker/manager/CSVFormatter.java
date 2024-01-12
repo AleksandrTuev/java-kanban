@@ -1,7 +1,7 @@
 package ru.practicum.task_tracker.manager;
 
-import ru.practicum.task_tracker.model.task_type.TaskType;
-import ru.practicum.task_tracker.model.task_status.Status;
+import ru.practicum.task_tracker.enums.TaskType;
+import ru.practicum.task_tracker.enums.Status;
 import ru.practicum.task_tracker.tasks.Epic;
 import ru.practicum.task_tracker.tasks.Subtask;
 import ru.practicum.task_tracker.tasks.Task;
@@ -36,17 +36,9 @@ public class CSVFormatter {
     public static String toString(Task task){
         StringBuilder taskStr = new StringBuilder();
 
-        taskStr.append(task.getId());
-        taskStr.append(",");
-        taskStr.append(getType(task));
-        taskStr.append(",");
-        taskStr.append(task.getName() );
-        taskStr.append(",");
-        taskStr.append(task.getStatus());
-        taskStr.append(",");
-        taskStr.append(task.getDescription());
-        taskStr.append(",");
-        taskStr.append(getParentEpicId(task));
+        taskStr.append(task.getId()).append(",").append(getType(task)).append(",").append(task.getName())
+                .append(",").append(task.getStatus()).append(",").append(task.getDescription()).append(",")
+                .append(getParentEpicId(task));
         return taskStr.toString();
     }
 

@@ -11,9 +11,8 @@ import java.io.File;
 
 public class Main {
     public static void main(String[] args) {
-        File file = new File("data.csv");
 
-        TaskManager taskManager = Managers.getDefault(file);
+        TaskManager taskManager = Managers.getDefault();
 
         //id=1
         Task task1 = new Task("Task 1", "Description 1");

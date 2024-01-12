@@ -11,13 +11,10 @@ import java.util.HashMap;
 import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
-    private final File file;
-    public FileBackedTaskManager(File file){
-        this.file = file;
-    }
+    private final File file = new File("data.csv");
 
     public static FileBackedTaskManager loadFromFile(File file){
-        FileBackedTaskManager newTaskManager = new FileBackedTaskManager(file);
+        FileBackedTaskManager newTaskManager = new FileBackedTaskManager();
         List<String> lines = new ArrayList<>();
 
         try(BufferedReader reader = new BufferedReader(new FileReader(file))){

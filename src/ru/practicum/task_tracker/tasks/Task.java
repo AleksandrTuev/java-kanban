@@ -1,7 +1,7 @@
 package ru.practicum.task_tracker.tasks;
 
-import ru.practicum.task_tracker.model.task_type.TaskType;
-import ru.practicum.task_tracker.model.task_status.Status;
+import ru.practicum.task_tracker.enums.TaskType;
+import ru.practicum.task_tracker.enums.Status;
 
 import java.util.Objects;
 
