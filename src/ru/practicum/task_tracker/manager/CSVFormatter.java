@@ -6,6 +6,7 @@ import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class CSVFormatter {
 
         taskStr.append(task.getId()).append(",").append(getType(task)).append(",").append(task.getName())
                 .append(",").append(task.getStatus()).append(",").append(task.getDescription()).append(",")
+                .append(task.getStartTime()).append(",").append(task.getDuration()).append(",")
                 .append(getParentEpicId(task));
         return taskStr.toString();
     }
@@ -52,12 +54,13 @@ public class CSVFormatter {
                 epic.setStatus(Status.valueOf(arr[3]));
                 return epic;
             case SUBTASK:
-                Subtask subtask = new Subtask(arr[2], arr[4], Integer.parseInt(arr[5]));
+                Subtask subtask = new Subtask(arr[2], arr[4], Integer.parseInt(arr[7]),
+                        LocalDateTime.parse(arr[5]), Long.parseLong(arr[6]));
                 subtask.setId(Integer.parseInt(arr[0]));
                 subtask.setStatus(Status.valueOf(arr[3]));
                 return subtask;
             default:
-                Task task = new Task(arr[2], arr[4]);
+                Task task = new Task(arr[2], arr[4], LocalDateTime.parse(arr[5]), Long.parseLong(arr[6]));
                 task.setId(Integer.parseInt(arr[0]));
                 task.setStatus(Status.valueOf(arr[3]));
                 return task;

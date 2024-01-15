@@ -13,6 +13,7 @@ public interface TaskManager {
     HashMap<Integer, Epic> getEpics();
 
     HashMap<Integer, Subtask> getSubtasks();
+    boolean overlaps(Task task1, Task task2);
 
     void deleteAllTasks();
 

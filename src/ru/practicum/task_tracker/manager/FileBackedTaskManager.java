@@ -6,7 +6,6 @@ import tasks.Subtask;
 import tasks.Task;
 
 import java.io.*;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -80,7 +79,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     public void save(){
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))){
 
-            writer.write("id,type,name,status,description,epic\n");
+            writer.write("id,type,name,status,description,startTime,duration,epic\n");
 
             for (Integer taskId : getTasks().keySet()) {
                 Task task = getTasks().get(taskId);

@@ -5,16 +5,39 @@ import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
     protected final HashMap<Integer, Task> tasks = new HashMap<>();
     protected final HashMap<Integer, Epic> epics = new HashMap<>();
     protected final HashMap<Integer, Subtask> subtasks = new HashMap<>();
     protected final HistoryManager historyManager = Managers.getDefaultHistory();
+    protected final Set<Task> prioritizedTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime,
+        Comparator.nullsLast(Comparator.naturalOrder())).thenComparing(Task::getId));
     protected int generateId = 0;
+
+    public Set<Task> getPrioritizedTasks(){
+        return prioritizedTasks;
+    }
+
+    public void setPrioritizedTasks(Task task){
+        for (Task other : getPrioritizedTasks()) {
+            if (overlaps(task, other)){
+                throw new RuntimeException(task.getName() + " невозможно добавить. Имеется пересечение по времени.");
+            }
+        }
+        getPrioritizedTasks().add(task);
+    }
+
+    @Override
+    public boolean overlaps(Task task1, Task task2){
+//        Task a;
+        if (!task1.getStartTime().isAfter(task2.getStartTime())){
+            return !(task1.getEndTime().isBefore(task2.getStartTime()));
+        }else{
+            return !(task2.getEndTime().isBefore(task1.getStartTime()));
+        }
+    }
 
     @Override
     public HashMap<Integer, Task> getTasks() {
@@ -78,6 +101,7 @@ public class InMemoryTaskManager implements TaskManager {
     public int addNewTask(Task task) { //создание задачи
         task.setId(generateId());
         tasks.put(task.getId(), task);
+        setPrioritizedTasks(task);
         return task.getId();
     }
 
@@ -96,6 +120,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
         subtask.setId(generateId()); //генерируется id подзадачи и присваивается ей
         subtasks.put(subtask.getId(), subtask); //подзадача добавляется в мапу
+        setPrioritizedTasks(subtask);
         epic.addSubtaskId(subtask.getId()); //id подзадачи добавляется в список эпика
         updateEpicStatus(subtask.getEpicId()); //обновление статуса эпика
         return subtask.getId();
@@ -107,6 +132,8 @@ public class InMemoryTaskManager implements TaskManager {
         if (savedTask == null) {
             return;
         }
+        getPrioritizedTasks().remove(task);
+        setPrioritizedTasks(task);
         tasks.put(task.getId(), task);
     }
 
@@ -126,6 +153,8 @@ public class InMemoryTaskManager implements TaskManager {
         if (saveSubtask == null) {
             return;
         }
+        getPrioritizedTasks().remove(subtask);
+        setPrioritizedTasks(subtask);
         subtasks.put(subtask.getId(), subtask);
         updateEpicStatus(subtask.getEpicId());
     }

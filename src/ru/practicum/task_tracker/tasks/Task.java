@@ -3,6 +3,10 @@ package tasks;
 import enums.TaskType;
 import enums.Status;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.chrono.ChronoPeriod;
+import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 public class Task {
@@ -10,18 +14,40 @@ public class Task {
     protected String name;
     protected String description;
     protected Status status;
+    protected LocalDateTime startTime;
+    protected long duration;
 
-    public Task(String name, String description) {
+    public Task(String name, String description, LocalDateTime startTime, long duration) {
         this.name = name;
         this.description = description;
         this.status = Status.NEW;
+        this.startTime = startTime;
+        this.duration = duration;
     }
 
-    public Task(Integer id, String name, String description, Status status) {
+    public Task(Integer id, String name, String description, Status status, LocalDateTime startTime, long duration) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.status = status;
+        this.startTime = startTime;
+        this.duration = duration;
+    }
+
+    public LocalDateTime getStartTime(){
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime){
+        this.startTime = startTime;
+    }
+
+    public long getDuration(){
+        return duration;
+    }
+
+    public LocalDateTime getEndTime(){
+        return startTime.plus(duration, ChronoUnit.MINUTES);
     }
 
     public String getName() {
@@ -100,6 +126,8 @@ public class Task {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", status='" + status + '\'' +
+                ", starTime='" + startTime + '\'' +
+                ", duration='" + duration + '\'' +
                 '}';
     }
 }

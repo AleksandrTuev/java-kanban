@@ -7,8 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -20,9 +19,11 @@ class EpicTest {
         taskManager = Managers.getDefault();
         Epic epic1 = new Epic("Epic 1", "Description 1"); //id = 1
         int epicId1 = taskManager.addNewEpic(epic1);
-        Subtask subtask11 = new Subtask("Subtask 11", "Description 11/Epic 1", epicId1); //id = 2
+        Subtask subtask11 = new Subtask("Subtask 11", "Description 11/Epic 1", epicId1,
+                LocalDateTime.of(2024,1,10,11,15),30); //id = 2
         int subtaskId11 = taskManager.addNewSubtask(subtask11);
-        Subtask subtask12 = new Subtask("Subtask 12", "Description 12/Epic 1", epicId1); //id = 3
+        Subtask subtask12 = new Subtask("Subtask 12", "Description 12/Epic 1", epicId1,
+                LocalDateTime.of(2024,1,10,12,15),30);  //id = 3
         int subtaskId12 = taskManager.addNewSubtask(subtask12);
     }
 
