@@ -1,20 +1,28 @@
-package ru.practicum.task_tracker.manager;
+package manager;
 
-import ru.practicum.task_tracker.exception.ManagerSaveException;
-import ru.practicum.task_tracker.tasks.Epic;
-import ru.practicum.task_tracker.tasks.Subtask;
-import ru.practicum.task_tracker.tasks.Task;
+import exception.ManagerSaveException;
+import tasks.Epic;
+import tasks.Subtask;
+import tasks.Task;
 
 import java.io.*;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
-    private final File file = new File("data.csv");
+    private final File file;
+
+    FileBackedTaskManager(){
+        file = new File("data.csv");
+    };
+    FileBackedTaskManager(File file){
+        this.file = file;
+    };
 
     public static FileBackedTaskManager loadFromFile(File file){
-        FileBackedTaskManager newTaskManager = new FileBackedTaskManager();
+        FileBackedTaskManager newTaskManager = new FileBackedTaskManager(file);
         List<String> lines = new ArrayList<>();
 
         try(BufferedReader reader = new BufferedReader(new FileReader(file))){
@@ -27,6 +35,12 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
             for (int i = 1; i < lines.size(); i++) {
                 if (lines.get(i).isEmpty()){
+
+                    //проверка в файле наличия строки просмотра тасок
+                    if (lines.size() == i + 1){
+                        break;
+                    }
+
                     List<Integer> ids = CSVFormatter.historyFromString(lines.get(i+1));
                     for (Integer id : ids) {
                         if (newTaskManager.getTasks().containsKey(id)){

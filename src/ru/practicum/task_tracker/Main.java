@@ -1,11 +1,9 @@
-package ru.practicum.task_tracker;
-
-import ru.practicum.task_tracker.manager.FileBackedTaskManager;
-import ru.practicum.task_tracker.manager.Managers;
-import ru.practicum.task_tracker.manager.TaskManager;
-import ru.practicum.task_tracker.tasks.Epic;
-import ru.practicum.task_tracker.tasks.Subtask;
-import ru.practicum.task_tracker.tasks.Task;
+import manager.FileBackedTaskManager;
+import manager.Managers;
+import manager.TaskManager;
+import tasks.Epic;
+import tasks.Subtask;
+import tasks.Task;
 
 import java.io.File;
 

@@ -1,9 +1,9 @@
-package ru.practicum.task_tracker.manager;
+package manager;
 
-import ru.practicum.task_tracker.enums.Status;
-import ru.practicum.task_tracker.tasks.Epic;
-import ru.practicum.task_tracker.tasks.Subtask;
-import ru.practicum.task_tracker.tasks.Task;
+import enums.Status;
+import tasks.Epic;
+import tasks.Subtask;
+import tasks.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -155,8 +155,8 @@ public class InMemoryTaskManager implements TaskManager {
         ArrayList<Integer> subtaskIds = epic.getSubtaskIds();
         int idIndex = 0;
         for (Integer id : subtaskIds) {
-            if (subtaskIds.get(id) == subtaskId) {
-                idIndex = id;
+            if (id == subtaskId) {
+                idIndex = subtaskIds.indexOf(id);
             }
         }
         subtaskIds.remove(idIndex); //удаляем id подзадачи из списка эпика

@@ -1,6 +1,6 @@
-package ru.practicum.task_tracker.tasks;
+package tasks;
 
-import ru.practicum.task_tracker.enums.TaskType;
+import enums.TaskType;
 
 import java.util.ArrayList;
 
@@ -11,6 +11,11 @@ public class Epic extends Task{
         super(name, description);
         subtaskIds = new ArrayList<>();
     }
+
+//    public Epic(Integer id, String name, String description) {
+//        super(id, name, description);
+//        subtaskIds = new ArrayList<>();
+//    }
 
     public void setSubtaskIds(ArrayList<Integer> subtaskIds) {
         this.subtaskIds = subtaskIds;

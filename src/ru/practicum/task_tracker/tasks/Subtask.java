@@ -1,7 +1,7 @@
-package ru.practicum.task_tracker.tasks;
+package tasks;
 
-import ru.practicum.task_tracker.enums.TaskType;
-import ru.practicum.task_tracker.enums.Status;
+import enums.TaskType;
+import enums.Status;
 
 public class Subtask extends Task{
     private final int epicId;

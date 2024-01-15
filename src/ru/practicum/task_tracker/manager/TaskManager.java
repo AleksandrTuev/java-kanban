@@ -1,8 +1,8 @@
-package ru.practicum.task_tracker.manager;
+package manager;
 
-import ru.practicum.task_tracker.tasks.Epic;
-import ru.practicum.task_tracker.tasks.Subtask;
-import ru.practicum.task_tracker.tasks.Task;
+import tasks.Epic;
+import tasks.Subtask;
+import tasks.Task;
 
 import java.util.HashMap;
 import java.util.List;

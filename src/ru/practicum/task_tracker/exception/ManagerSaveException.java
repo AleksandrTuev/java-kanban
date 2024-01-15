@@ -1,4 +1,4 @@
-package ru.practicum.task_tracker.exception;
+package exception;
 
 import java.io.IOException;
 

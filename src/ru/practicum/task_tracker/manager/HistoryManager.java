@@ -1,6 +1,6 @@
-package ru.practicum.task_tracker.manager;
+package manager;
 
-import ru.practicum.task_tracker.tasks.Task;
+import tasks.Task;
 
 import java.util.List;
 
