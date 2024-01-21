@@ -7,7 +7,6 @@ import tasks.Subtask;
 import tasks.Task;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class InMemoryTaskManager implements TaskManager {
     protected final HashMap<Integer, Task> tasks = new HashMap<>();
@@ -23,12 +22,12 @@ public class InMemoryTaskManager implements TaskManager {
         return prioritizedTasks;
     }
 
-    public void setPrioritizedTasks(Task task){
+    public boolean setPrioritizedTasks(Task task){
         for (Task other : getPrioritizedTasks()) {
             if (overlaps(task, other)){
                 if (task.getId() != other.getId()){
                     System.out.println(task.getName() + " c id=" + task.getId() + " невозможно добавить. Имеется пересечение по времени c " + other.getName()+ " c id=" + other.getId() + ".");
-                    return;
+                    return false;
                 }
             }
         }
@@ -41,9 +40,10 @@ public class InMemoryTaskManager implements TaskManager {
             getPrioritizedTasks().remove(savedTask);
         }
         if (task.getType().equals(TaskType.EPIC)){
-            return;
+            return false;
         }
         getPrioritizedTasks().add(task);
+        return true;
     }
 
     @Override
@@ -148,8 +148,9 @@ public class InMemoryTaskManager implements TaskManager {
         if (savedTask == null) {
             return;
         }
-        setPrioritizedTasks(task);
-        tasks.put(task.getId(), task);
+        if (setPrioritizedTasks(task)){ //Если пересечений нет, то task запишется в мапу
+            tasks.put(task.getId(), task);
+        }
     }
 
     @Override
@@ -168,9 +169,10 @@ public class InMemoryTaskManager implements TaskManager {
         if (saveSubtask == null) {
             return;
         }
-        setPrioritizedTasks(subtask);
-        subtasks.put(subtask.getId(), subtask);
-        updateEpicStatus(subtask.getEpicId());
+        if (setPrioritizedTasks(subtask)){ //Если пересечений нет, то subtask запишется в мапу
+            subtasks.put(subtask.getId(), subtask);
+            updateEpicStatus(subtask.getEpicId());
+        }
     }
 
     @Override
@@ -232,7 +234,7 @@ public class InMemoryTaskManager implements TaskManager {
                     && !status.equals(Status.IN_PROGRESS)) {
                 continue;
             }
-            epic.setStatus(Status.IN_PROGRESS);
+            status = Status.IN_PROGRESS;
         }
         epic.setStatus(status);
     }

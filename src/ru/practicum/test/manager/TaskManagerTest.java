@@ -16,11 +16,11 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         //id=1
         Task task1 = new Task("Task1", "Description/Task1",
                 LocalDateTime.of(2024, 1, 15,21,30), 10);
-        int taskId1 = taskManager.addNewTask(task1);
+        taskManager.addNewTask(task1);
         //id=2
         Task task2 = new Task("Task2", "Description/Task2",
                 LocalDateTime.of(2024, 1, 15,15,30), 15);
-        int taskId2 = taskManager.addNewTask(task2);
+        taskManager.addNewTask(task2);
 
         //id=3
         Epic epic1 = new Epic("Epic 1", "Description 1");
@@ -28,15 +28,15 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         //id=4
         Subtask subtask11 = new Subtask("Subtask 11", "Description 11/Epic 1", epicId1,
                 LocalDateTime.of(2024, 1, 16,10,30), 15);
-        int subtaskId11 = taskManager.addNewSubtask(subtask11);
+        taskManager.addNewSubtask(subtask11);
         //id=5
         Subtask subtask12 = new Subtask("Subtask 12", "Description 12/Epic 1", epicId1,
                 LocalDateTime.of(2024, 1, 16,10,50), 15);
-        int subtaskId12 = taskManager.addNewSubtask(subtask12);
+        taskManager.addNewSubtask(subtask12);
         //id=6
         Subtask subtask13 = new Subtask("Subtask 13", "Description 13/Epic 1", epicId1,
                 LocalDateTime.of(2024, 1, 16,11,10), 15);
-        int subtaskId13 = taskManager.addNewSubtask(subtask13);
+        taskManager.addNewSubtask(subtask13);
 
         //id=7
         Epic epic2 = new Epic("Epic 2", "Description 2");
@@ -44,16 +44,16 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         //id=8
         Subtask subtask21 = new Subtask("Subtask 21", "Description 21/Epic 2", epicId2,
                 LocalDateTime.of(2024, 1, 15,7,30), 60);
-        int subtaskId21 = taskManager.addNewSubtask(subtask21);
+        taskManager.addNewSubtask(subtask21);
         //id=9
         Subtask subtask22 = new Subtask("Subtask 22", "Description 22/Epic 2", epicId2,
                 LocalDateTime.of(2024, 1, 15,8,40), 60);
-        int subtaskId22 = taskManager.addNewSubtask(subtask22);
+        taskManager.addNewSubtask(subtask22);
 
         //id=10
         Task task3 = new Task("Task3", "Description/Task3",
                 LocalDateTime.of(2024, 1, 17,21,15), 25);
-        int taskId3 = taskManager.addNewTask(task3);
+        taskManager.addNewTask(task3);
 
         //Просмотр задач
         taskManager.getTaskToId(1);

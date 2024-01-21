@@ -44,7 +44,7 @@ public class Main {
 
         System.out.println("---------");
         System.out.println("Обновляем Task 1 [15.01.24 / 18:00 - 18:20]");
-        task1 = new Task(1, "UpdateTask 1", "UpdateDescription/Task 1", Status.IN_PROGRESS,
+        task1 = new Task(taskId1, "UpdateTask 1", "UpdateDescription/Task 1", Status.IN_PROGRESS,
                 LocalDateTime.of(2024, 1, 15,18,0), 20);
         System.out.println(task1);
         taskManager.updateTask(task1);
@@ -55,7 +55,7 @@ public class Main {
 
         System.out.println("---------");
         System.out.println("Обновляем Task 2 [15.01.24 / 18:10 - 18:25]");
-        task2 = new Task(2, "Task 2", "Description/Task 2", Status.IN_PROGRESS,
+        task2 = new Task(taskId2, "Task 2", "Description/Task 2", Status.IN_PROGRESS,
                 LocalDateTime.of(2024, 1, 15,18,10), 15);
         System.out.println(task2);
         taskManager.updateTask(task2);
@@ -123,5 +123,32 @@ public class Main {
         System.out.println("---------");
         System.out.println("Проверка Set");
         System.out.println(taskManager.getPrioritizedTasks());
+
+        System.out.println("---------");
+        System.out.println("Обновляем Subtask11 (Epic1) [16.01.24 / 10:40 - 10:50]");
+        subtask11 = new Subtask(4, "UpdateSubtask 11", "UpdateDescription 11/Epic 1",
+                Status.DONE, epicId1, LocalDateTime.of(2024, 1, 16,10,40), 10);
+        System.out.println(subtask11);
+        taskManager.updateSubtask(subtask11);
+
+        System.out.println("---------");
+        System.out.println("Обновляем Subtask12 (Epic1) [16.01.24 / 12:50 - 13:05]");
+        subtask12 = new Subtask(5, "UpdateSubtask 12", "UpdateDescription 12/Epic 1",
+                Status.DONE, epicId1, LocalDateTime.of(2024, 1, 16,12,50), 15);
+        System.out.println(subtask12);
+        taskManager.updateSubtask(subtask12);
+
+        System.out.println("---------");
+        System.out.println("Обновляем Subtask13 (Epic1) [16.01.24 / 18:00 - 18:15]");
+        subtask13 = new Subtask(6, "UpdateSubtask 13", "UpdateDescription 13/Epic 1",
+                Status.IN_PROGRESS, epicId1, LocalDateTime.of(2024, 1, 16,18,0), 15);
+        System.out.println(subtask13);
+        taskManager.updateSubtask(subtask13);
+
+        System.out.println("---------");
+        System.out.println("Проверка Set");
+        System.out.println(taskManager.getPrioritizedTasks());
+        System.out.println("---------");
+        System.out.println("Статус Epic - " + taskManager.getEpicToId(3).getStatus());
     }
 }
