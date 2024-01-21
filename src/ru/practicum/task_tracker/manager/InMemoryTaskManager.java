@@ -1,11 +1,13 @@
 package manager;
 
 import enums.Status;
+import enums.TaskType;
 import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class InMemoryTaskManager implements TaskManager {
     protected final HashMap<Integer, Task> tasks = new HashMap<>();
@@ -16,6 +18,7 @@ public class InMemoryTaskManager implements TaskManager {
         Comparator.nullsLast(Comparator.naturalOrder())).thenComparing(Task::getId));
     protected int generateId = 0;
 
+    @Override
     public Set<Task> getPrioritizedTasks(){
         return prioritizedTasks;
     }
@@ -23,15 +26,28 @@ public class InMemoryTaskManager implements TaskManager {
     public void setPrioritizedTasks(Task task){
         for (Task other : getPrioritizedTasks()) {
             if (overlaps(task, other)){
-                throw new RuntimeException(task.getName() + " невозможно добавить. Имеется пересечение по времени.");
+                if (task.getId() != other.getId()){
+                    System.out.println(task.getName() + " c id=" + task.getId() + " невозможно добавить. Имеется пересечение по времени c " + other.getName()+ " c id=" + other.getId() + ".");
+                    return;
+                }
             }
+        }
+        if (task.getType().equals(TaskType.TASK)){
+            Task savedTask = tasks.get(task.getId());
+            getPrioritizedTasks().remove(savedTask);
+        }
+        if (task.getType().equals(TaskType.SUBTASK)){
+            Task savedTask = subtasks.get(task.getId());
+            getPrioritizedTasks().remove(savedTask);
+        }
+        if (task.getType().equals(TaskType.EPIC)){
+            return;
         }
         getPrioritizedTasks().add(task);
     }
 
     @Override
     public boolean overlaps(Task task1, Task task2){
-//        Task a;
         if (!task1.getStartTime().isAfter(task2.getStartTime())){
             return !(task1.getEndTime().isBefore(task2.getStartTime()));
         }else{
@@ -132,7 +148,6 @@ public class InMemoryTaskManager implements TaskManager {
         if (savedTask == null) {
             return;
         }
-        getPrioritizedTasks().remove(task);
         setPrioritizedTasks(task);
         tasks.put(task.getId(), task);
     }
@@ -153,7 +168,6 @@ public class InMemoryTaskManager implements TaskManager {
         if (saveSubtask == null) {
             return;
         }
-        getPrioritizedTasks().remove(subtask);
         setPrioritizedTasks(subtask);
         subtasks.put(subtask.getId(), subtask);
         updateEpicStatus(subtask.getEpicId());

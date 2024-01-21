@@ -31,14 +31,25 @@ public class Subtask extends Task{
         return TaskType.SUBTASK;
     }
 
+//    @Override
+//    public String toString() {
+//        return "Subtask{" +
+//                "id='" + id + '\'' +
+//                ", epicId='" + epicId + '\'' +
+//                ", name='" + name + '\'' +
+//                ", description='" + description + '\'' +
+//                ", status='" + status + '\'' +
+//                '}';
+//    }
     @Override
     public String toString() {
         return "Subtask{" +
                 "id='" + id + '\'' +
-                ", epicId='" + epicId + '\'' +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", status='" + status + '\'' +
+                ", starTime='" + startTime + '\'' +
+                ", duration='" + duration + '\'' +
                 '}';
     }
 }

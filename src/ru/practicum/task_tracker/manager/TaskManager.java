@@ -6,6 +6,7 @@ import tasks.Task;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public interface TaskManager {
     HashMap<Integer, Task> getTasks();
@@ -13,6 +14,9 @@ public interface TaskManager {
     HashMap<Integer, Epic> getEpics();
 
     HashMap<Integer, Subtask> getSubtasks();
+
+    Set<Task> getPrioritizedTasks();
+
     boolean overlaps(Task task1, Task task2);
 
     void deleteAllTasks();

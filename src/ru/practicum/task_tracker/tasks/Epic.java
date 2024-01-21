@@ -9,16 +9,14 @@ import java.util.ArrayList;
 
 public class Epic extends Task{
     private ArrayList<Integer> subtaskIds;
-    private LocalDateTime endTime;
+    //private LocalDateTime endTime;
+    //поле не используется.
+    //endTime у нас высчитывается в методе getEndTime. Удалю
+
     public Epic(String name, String description) {
         super(name, description, null, 0);
         subtaskIds = new ArrayList<>();
     }
-
-//    public Epic(Integer id, String name, String description) {
-//        super(id, name, description);
-//        subtaskIds = new ArrayList<>();
-//    }
 
     @Override
     public LocalDateTime getEndTime(){

@@ -13,12 +13,13 @@ import java.util.List;
 public class FileBackedTaskManager extends InMemoryTaskManager {
     private final File file;
 
-    FileBackedTaskManager(){
+    public FileBackedTaskManager(){
         file = new File("data.csv");
-    };
-    FileBackedTaskManager(File file){
+    }
+
+    public FileBackedTaskManager(File file){
         this.file = file;
-    };
+    }
 
     public static FileBackedTaskManager loadFromFile(File file){
         FileBackedTaskManager newTaskManager = new FileBackedTaskManager(file);
