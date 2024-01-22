@@ -33,7 +33,7 @@ public class Main {
 
         System.out.println("---------");
         System.out.println("Обновляем Task 1 [15.01.24 / 18:00 - 18:10]");
-        task1 = new Task(1, "UpdateTask 1", "UpdateDescription/Task 1", Status.IN_PROGRESS,
+        task1 = new Task(taskId1, "UpdateTask 1", "UpdateDescription/Task 1", Status.IN_PROGRESS,
                 LocalDateTime.of(2024, 1, 15,18,0), 10);
         System.out.println(task1);
         taskManager.updateTask(task1);
@@ -97,14 +97,14 @@ public class Main {
 
         System.out.println("---------");
         System.out.println("Обновляем Subtask11 (Epic1) [16.01.24 / 10:40 - 10:50]");
-        subtask11 = new Subtask(4, "UpdateSubtask 11", "UpdateDescription 11/Epic 1",
+        subtask11 = new Subtask(subtaskId11, "UpdateSubtask 11", "UpdateDescription 11/Epic 1",
                 Status.IN_PROGRESS, epicId1, LocalDateTime.of(2024, 1, 16,10,40), 10);
         System.out.println(subtask11);
         taskManager.updateSubtask(subtask11);
 
         System.out.println("---------");
         System.out.println("Обновляем Subtask12 (Epic1) [16.01.24 / 12:50 - 13:05]");
-        subtask12 = new Subtask(5, "UpdateSubtask 12", "UpdateDescription 12/Epic 1",
+        subtask12 = new Subtask(subtaskId12, "UpdateSubtask 12", "UpdateDescription 12/Epic 1",
                 Status.IN_PROGRESS, epicId1, LocalDateTime.of(2024, 1, 16,12,50), 15);
         System.out.println(subtask12);
         taskManager.updateSubtask(subtask12);
@@ -115,7 +115,7 @@ public class Main {
 
         System.out.println("---------");
         System.out.println("Обновляем Subtask13 (Epic1) [15.01.24 / 18:00 - 18:15]");
-        subtask13 = new Subtask(6, "UpdateSubtask 13", "UpdateDescription 13/Epic 1",
+        subtask13 = new Subtask(subtaskId13, "UpdateSubtask 13", "UpdateDescription 13/Epic 1",
                 Status.IN_PROGRESS, epicId1, LocalDateTime.of(2024, 1, 15,18,0), 15);
         System.out.println(subtask13);
         taskManager.updateSubtask(subtask13);
@@ -126,21 +126,21 @@ public class Main {
 
         System.out.println("---------");
         System.out.println("Обновляем Subtask11 (Epic1) [16.01.24 / 10:40 - 10:50]");
-        subtask11 = new Subtask(4, "UpdateSubtask 11", "UpdateDescription 11/Epic 1",
+        subtask11 = new Subtask(subtaskId11, "UpdateSubtask 11", "UpdateDescription 11/Epic 1",
                 Status.DONE, epicId1, LocalDateTime.of(2024, 1, 16,10,40), 10);
         System.out.println(subtask11);
         taskManager.updateSubtask(subtask11);
 
         System.out.println("---------");
         System.out.println("Обновляем Subtask12 (Epic1) [16.01.24 / 12:50 - 13:05]");
-        subtask12 = new Subtask(5, "UpdateSubtask 12", "UpdateDescription 12/Epic 1",
+        subtask12 = new Subtask(subtaskId12, "UpdateSubtask 12", "UpdateDescription 12/Epic 1",
                 Status.DONE, epicId1, LocalDateTime.of(2024, 1, 16,12,50), 15);
         System.out.println(subtask12);
         taskManager.updateSubtask(subtask12);
 
         System.out.println("---------");
         System.out.println("Обновляем Subtask13 (Epic1) [16.01.24 / 18:00 - 18:15]");
-        subtask13 = new Subtask(6, "UpdateSubtask 13", "UpdateDescription 13/Epic 1",
+        subtask13 = new Subtask(subtaskId13, "UpdateSubtask 13", "UpdateDescription 13/Epic 1",
                 Status.IN_PROGRESS, epicId1, LocalDateTime.of(2024, 1, 16,18,0), 15);
         System.out.println(subtask13);
         taskManager.updateSubtask(subtask13);
@@ -149,6 +149,36 @@ public class Main {
         System.out.println("Проверка Set");
         System.out.println(taskManager.getPrioritizedTasks());
         System.out.println("---------");
-        System.out.println("Статус Epic - " + taskManager.getEpicToId(3).getStatus());
+        System.out.println("Статус Epic - " + taskManager.getEpicToId(epicId1).getStatus());
+
+        System.out.println("---------");
+        System.out.println("Добавляем Task 3 [LocalDateTime = null]");
+        //id=7
+        Task task3 = new Task("Task 3", "Description/Task 3",
+                null, 0);
+        taskManager.addNewTask(task3);
+        System.out.println(task3);
+
+        System.out.println("---------");
+        System.out.println("Проверка Set");
+        System.out.println(taskManager.getPrioritizedTasks());
+
+        System.out.println("---------");
+        System.out.println("Добавляем Task 4 [LocalDateTime = null]");
+        //id=8
+        Task task4 = new Task("Task 4", "Description/Task 4",
+                null, 0);
+        taskManager.addNewTask(task4);
+        System.out.println(task4);
+
+        System.out.println("---------");
+        System.out.println("Проверка Set");
+        System.out.println(taskManager.getPrioritizedTasks());
+
+        System.out.println("---------");
+        System.out.println("Параметры Epic1:");
+        System.out.println("Время начала: " + epic1.getStartTime());
+        System.out.println("Длительность в минутах: " + epic1.getDuration());
+        System.out.println("Время окончания: " + epic1.getEndTime());
     }
 }
