@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
-class EpicTest { //Согласно ТЗ необходимо было покрыть только класс Epic
+class EpicTest {
     TaskManager taskManager;
 
     @BeforeEach
