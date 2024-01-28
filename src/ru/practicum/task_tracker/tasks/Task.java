@@ -1,10 +1,8 @@
 package tasks;
 
-import com.google.gson.annotations.JsonAdapter;
 import enums.TaskType;
 import enums.Status;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
@@ -14,9 +12,7 @@ public class Task {
     protected String name;
     protected String description;
     protected Status status;
-//    @JsonAdapter(LocalDateTime.class)
     protected LocalDateTime startTime;
-//    @JsonAdapter(Duration.class)
     protected long duration;
 
     public Task(String name, String description, LocalDateTime startTime, long duration) {

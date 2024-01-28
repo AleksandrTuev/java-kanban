@@ -10,9 +10,6 @@ import java.util.Map;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
-/**
- * Постман: https://www.getpostman.com/collections/a83b61d9e1c81c10575c
- */
 public class KVServer {
     public static final int PORT = 8078;
     private final String apiToken;
@@ -43,7 +40,6 @@ public class KVServer {
             }
             if ("GET".equals(exchange.getRequestMethod())) {
                 String key = exchange.getRequestURI().getPath().substring("/load/".length());
-//                String key = exchange.getRequestURI().getPath().substring(6);
                 if (key.isEmpty()) {
                     System.out.println("Key для получения пустой. Key указывается в пути: /load/{key}");
                     exchange.sendResponseHeaders(400, 0);
@@ -100,17 +96,17 @@ public class KVServer {
         }
     }
 
-    private void register(HttpExchange exchange) throws IOException { //регистрировать
+    private void register(HttpExchange exchange) throws IOException {
         try {
             System.out.println("\n/register");
             if ("GET".equals(exchange.getRequestMethod())) {
-                sendText(exchange, apiToken); //отправить текст ("отправляется ответ Клиенту")
+                sendText(exchange, apiToken);
             } else {
                 System.out.println("/register ждёт GET-запрос, а получил " + exchange.getRequestMethod());
-                exchange.sendResponseHeaders(405, 0); //Если не тот http метод отправляется ошибка
+                exchange.sendResponseHeaders(405, 0);
             }
         } finally {
-            exchange.close(); //закрывается обмен
+            exchange.close();
         }
     }
 
@@ -127,24 +123,23 @@ public class KVServer {
         server.stop(1);
     }
 
-    private String generateApiToken() { //генерация ApiToken
-        return "" + System.currentTimeMillis(); //возвращается текущее количество миллисекунд с начала эры Unix
+    private String generateApiToken() {
+        return "" + System.currentTimeMillis();
     }
 
-    protected boolean hasAuth(HttpExchange exchange) { //имеется авторизация?
-        String rawQuery = exchange.getRequestURI().getRawQuery(); //getRequestURI - Восстанавливает URL-адрес, использованный клиентом для выполнения запроса. //
-        // getRawQuery - Возвращает необработанный компонент запроса этого URI
+    protected boolean hasAuth(HttpExchange exchange) {
+        String rawQuery = exchange.getRequestURI().getRawQuery();
         return rawQuery != null && (rawQuery.contains("API_TOKEN=" + apiToken) || rawQuery.contains("API_TOKEN=DEBUG"));
     }
 
-    protected String readText(HttpExchange exchange) throws IOException { //получение запроса от Клиента
+    protected String readText(HttpExchange exchange) throws IOException {
         return new String(exchange.getRequestBody().readAllBytes(), UTF_8);
     }
 
-    protected void sendText(HttpExchange exchange, String text) throws IOException { //отправка ответа (заголовок, статус код, "тело")
+    protected void sendText(HttpExchange exchange, String text) throws IOException {
         byte[] resp = text.getBytes(UTF_8);
         exchange.getResponseHeaders().add("Content-Type", "application/json");
         exchange.sendResponseHeaders(200, resp.length);
-        exchange.getResponseBody().write(resp); //в тело отправили ApiToken
+        exchange.getResponseBody().write(resp);
     }
 }

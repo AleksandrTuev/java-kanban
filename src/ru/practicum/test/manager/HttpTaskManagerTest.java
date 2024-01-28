@@ -1,13 +1,10 @@
-package server;
+package manager;
 
-import manager.FileBackedTaskManager;
-import manager.Managers;
-import manager.TaskManager;
-import manager.TaskManagerTest;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import com.google.gson.Gson;
+import org.junit.jupiter.api.*;
+import server.HttpTaskManager;
+import server.HttpTaskServer;
+import server.KVServer;
 import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
@@ -20,19 +17,15 @@ import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class HttpTaskManagerTest extends TaskManagerTest<HttpTaskManager> {
     private KVServer kvServer;
     private TaskManager taskManager;
-    private  HttpTaskManager httpTaskManager;
     private HttpTaskServer httpTaskServer;
 
     @BeforeEach
     public void createManager() throws IOException {
         kvServer = Managers.getDefaultKVServer();
-//        kvServer.start();
-        taskManager = Managers.getDefault();
+        taskManager = new HttpTaskManager();
         httpTaskServer = new HttpTaskServer();
         httpTaskServer.start();
     }
@@ -41,7 +34,6 @@ class HttpTaskManagerTest extends TaskManagerTest<HttpTaskManager> {
     public void stopServer(){
         httpTaskServer.stop();
         kvServer.stop();
-//        httpTaskServer.stop();
     }
 
     @Test
@@ -85,12 +77,17 @@ class HttpTaskManagerTest extends TaskManagerTest<HttpTaskManager> {
     void testGetTasks() throws IOException, InterruptedException {
         Task task1 = new Task("Task 1", "Description/Task 1",
                 LocalDateTime.of(2024, 1, 15, 16, 30), 10);
-        taskManager.addNewTask(task1);
+        int taskId1 = taskManager.addNewTask(task1);
+
+        System.out.println(taskManager.getTaskToId(taskId1));
+        String json = new Gson().toJson(taskManager.getTaskToId(taskId1));
+        System.out.println(json);
 
         HttpClient client = HttpClient.newHttpClient();
         URI url = URI.create("http://localhost:8080/tasks/task");
         HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.body());
         Assertions.assertEquals(200, response.statusCode());
     }
 
@@ -130,12 +127,23 @@ class HttpTaskManagerTest extends TaskManagerTest<HttpTaskManager> {
                 LocalDateTime.of(2024, 1, 16,18,0), 15);
         int taskId2 = taskManager.addNewTask(task2);
 
+//        System.out.println(taskManager.getTasks());
+
+        System.out.println(taskManager.getTaskToId(1));
+        System.out.println(taskManager.getTaskToId(2));
+        System.out.println(taskManager.getTaskToId(3));
+
         HttpClient client = HttpClient.newHttpClient();
         URI url = URI.create("http://localhost:8080/tasks/task?id=1");
         HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         Assertions.assertEquals(200, response.statusCode());
-
+        //Семён привет!
+        //Вроде основной код реализовал. Запускал KVServer (через KVServerStarted) и HTTPTaskServer (через HTTPTaskServerStarted).
+        //Код отрабатывает. Проверял через Insomnia.
+        //Но тесты заваливаются. Не знаю куда копать.
+        //
+        //на 140 строке response.statusCode приходит верно (проверял, изменял), но вот тело response.body приходит пустое
+        //Не знаю куда смотреть
     }
-//
 }
