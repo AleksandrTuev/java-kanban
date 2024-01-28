@@ -1,16 +1,42 @@
 package manager;
 
 import enums.Status;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import server.HttpTaskManager;
+import server.HttpTaskServer;
+import server.KVServer;
 import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 public abstract class TaskManagerTest<T extends TaskManager> {
     T taskManager;
+    private KVServer kvServer;
+//    private TaskManager taskManager;
+    private HttpTaskManager httpTaskManager;
+    private HttpTaskServer httpTaskServer;
+
+    @BeforeEach
+    public void createManager() throws IOException {
+        kvServer = Managers.getDefaultKVServer();
+//        kvServer.start();
+//        taskManager = Managers.getDefault();
+        httpTaskServer = new HttpTaskServer();
+        httpTaskServer.start();
+    }
+
+    @AfterEach
+    public void stopServer(){
+        httpTaskServer.stop();
+        kvServer.stop();
+//        httpTaskServer.stop();
+    }
 
     private void creatingTasks(){
         //id=1

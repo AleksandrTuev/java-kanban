@@ -1,5 +1,6 @@
 package tasks;
 
+import com.google.gson.annotations.JsonAdapter;
 import enums.TaskType;
 
 import java.time.LocalDateTime;
@@ -7,6 +8,7 @@ import java.util.ArrayList;
 
 public class Epic extends Task{
     private ArrayList<Integer> subtaskIds;
+//    @JsonAdapter(LocalDateTime.class)
     private LocalDateTime endTime;
     //теперь используется)
 

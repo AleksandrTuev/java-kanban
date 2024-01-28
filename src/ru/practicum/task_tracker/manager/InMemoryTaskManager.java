@@ -35,12 +35,12 @@ public class InMemoryTaskManager implements TaskManager {
         }
         if (task.getType().equals(TaskType.TASK)){
             if (tasks.get(task.getId()) != null){
-                getPrioritizedTasks().remove(task);
+                getPrioritizedTasks().remove(tasks.get(task.getId())); //удаление task с тем же id, но со старым состоянием
             }
         }
         if (task.getType().equals(TaskType.SUBTASK)){
             if (subtasks.get(task.getId()) != null){
-                getPrioritizedTasks().remove(task);
+                getPrioritizedTasks().remove(subtasks.get(task.getId())); //удаление subtask с тем же id, но со старым состоянием
             }
         }
         if (task.getType().equals(TaskType.EPIC)){

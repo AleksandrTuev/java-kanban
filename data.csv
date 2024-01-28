@@ -1,11 +1,3 @@
 id,type,name,status,description,startTime,duration,epic
-1,TASK,UpdateTask 1,IN_PROGRESS,UpdateDescription/Task 1,2024-01-15T18:00,20,
-2,TASK,Task 2,NEW,Description/Task 2,2024-01-15T17:30,15,
-7,TASK,Task 3,NEW,Description/Task 3,null,0,
-8,TASK,Task 4,NEW,Description/Task 4,null,0,
-3,EPIC,Epic 1,IN_PROGRESS,Description 1,2024-01-16T10:30,465,
-4,SUBTASK,Subtask 11,NEW,Description 11/Epic 1,2024-01-16T10:30,15,3
-5,SUBTASK,UpdateSubtask 12,DONE,UpdateDescription 12/Epic 1,2024-01-16T12:50,15,3
-6,SUBTASK,UpdateSubtask 13,IN_PROGRESS,UpdateDescription 13/Epic 1,2024-01-16T18:00,15,3
+1,TASK,UpdateTask 1,IN_PROGRESS,UpdateDescription/Task 1,2024-01-15T18:00,10,
 
-3
