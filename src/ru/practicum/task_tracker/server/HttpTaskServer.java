@@ -43,7 +43,7 @@ public class HttpTaskServer{
         server.stop(1);
     }
 
-    public void TaskHandler(HttpExchange exchange) throws IOException {
+    public void TaskHandler(HttpExchange exchange) {
         try {
             String method = exchange.getRequestMethod();
             String query = extractQuery(exchange);
@@ -298,12 +298,14 @@ public class HttpTaskServer{
         exchange.getResponseHeaders().add("Content-Type", "application/json"); //для теста убрано
         exchange.sendResponseHeaders(code, response.length);
         exchange.getResponseBody().write(response);
+        exchange.close();
     }
 
     protected void sendTextToError(HttpExchange exchange, int code, String text) throws IOException {
         byte[] response = text.getBytes(UTF_8);
         exchange.sendResponseHeaders(code, response.length);
         exchange.getResponseBody().write(response);
+        exchange.close();
     }
 
     protected String readText(HttpExchange exchange) throws IOException{

@@ -1,10 +1,9 @@
-package server;
+package manager;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import enums.TaskType;
-import manager.FileBackedTaskManager;
-import manager.Managers;
+import server.KVClient;
 import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
@@ -15,7 +14,6 @@ import java.util.stream.Collectors;
 public class HttpTaskManager extends FileBackedTaskManager {
     private final Gson gson;
     private final KVClient client;
-    private boolean flag;
 
     public HttpTaskManager(){
         super(null);
@@ -47,37 +45,45 @@ public class HttpTaskManager extends FileBackedTaskManager {
     }
 
     private void load() {
-        if (!flag) {
-            return;
+        String tasksStr = client.load("tasks");
+        if (tasksStr != null){
+            ArrayList<Task> tasks = gson.fromJson(tasksStr, new TypeToken<ArrayList<Task>>() {
+            }.getType());
+            addTasks(tasks);
         }
-        ArrayList<Task> tasks = gson.fromJson(client.load("tasks"), new TypeToken<ArrayList<Task>>() {
-        }.getType());
-        addTasks(tasks);
 
-        ArrayList<Epic> epics = gson.fromJson(client.load("epics"), new TypeToken<ArrayList<Epic>>() {
-        }.getType());
-        addTasks(epics);
+        String epicsStr = client.load("epics");
+        if (epicsStr != null){
+            ArrayList<Epic> epics = gson.fromJson(epicsStr, new TypeToken<ArrayList<Epic>>() {
+            }.getType());
+            addTasks(epics);
+        }
 
-        ArrayList<Subtask> subtasks = gson.fromJson(client.load("subtasks"), new TypeToken<ArrayList<Subtask>>() {
-        }.getType());
-        addTasks(subtasks);
+        String subtasksStr = client.load("subtasks");
+        if (subtasksStr != null) {
+            ArrayList<Subtask> subtasks = gson.fromJson(subtasksStr, new TypeToken<ArrayList<Subtask>>() {
+            }.getType());
+            addTasks(subtasks);
+        }
 
-        List<Integer> history = gson.fromJson(client.load("history"), new TypeToken<ArrayList<Integer>>() {
-        }.getType());
-        if (history != null) {
-            for (Integer id : history) {
-                if (getTasks().containsKey(id)) {
-                    historyManager.addTask(getTaskToId(id));
-                }
-                if (getEpics().containsKey(id)) {
-                    historyManager.addTask(getEpicToId(id));
-                }
-                if (getSubtasks().containsKey(id)) {
-                    historyManager.addTask(getSubtaskToId(id));
+        String historyStr = client.load("history");
+        if (historyStr != null){
+            List<Integer> history = gson.fromJson(historyStr, new TypeToken<ArrayList<Integer>>() {
+            }.getType());
+            if (history != null) {
+                for (Integer id : history) {
+                    if (getTasks().containsKey(id)) {
+                        historyManager.addTask(getTaskToId(id));
+                    }
+                    if (getEpics().containsKey(id)) {
+                        historyManager.addTask(getEpicToId(id));
+                    }
+                    if (getSubtasks().containsKey(id)) {
+                        historyManager.addTask(getSubtaskToId(id));
+                    }
                 }
             }
         }
-        flag = true;
     }
 
     @Override

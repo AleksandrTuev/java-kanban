@@ -1,27 +1,16 @@
-import com.google.gson.Gson;
-import enums.Status;
 import manager.Managers;
 import manager.TaskManager;
-import server.HttpTaskServer;
 import server.KVServer;
 import tasks.Epic;
 import tasks.Subtask;
 import tasks.Task;
 
 import java.io.IOException;
-import java.io.StringReader;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-//        KVServer kvServer = Managers.getDefaultKVServer();
-//        HttpTaskServer httpTaskServer = new HttpTaskServer();
-//        httpTaskServer.start();
-        Gson gson = Managers.getGson();
+        KVServer kvServer = Managers.getDefaultKVServer();
         TaskManager taskManager = Managers.getDefault();
 
         //id=1
@@ -43,63 +32,35 @@ public class Main {
         Subtask subtask12 = new Subtask("Subtask 12", "Description 12/Epic 1", epicId1,
                 LocalDateTime.of(2024, 1, 16,10,50), 15);
         int subtaskId12 = taskManager.addNewSubtask(subtask12);
-
-        System.out.println(gson.toJson(taskManager.getTaskToId(1))); //test
-
-        System.out.println("---Печать задач отсортированных по приоритету---");
-        System.out.println(taskManager.getPrioritizedTasks());
-        System.out.println(gson.toJson(taskManager.getPrioritizedTasks()));
-        System.out.println("------------------------------------------------");
         taskManager.getEpicToId(epicId1);
         taskManager.getTaskToId(taskId2);
         taskManager.getSubtaskToId(subtaskId12);
         taskManager.getTaskToId(taskId1);
         taskManager.getSubtaskToId(subtaskId12);
-        System.out.println("-------------------Печать tasks-----------------");
-        System.out.println(gson.toJson(taskManager.getTasks()));
-        System.out.println("--------------------Печать epics----------------");
-        System.out.println(gson.toJson(taskManager.getEpics()));
-        System.out.println("------------------Печать subtasks---------------");
-        System.out.println(gson.toJson(taskManager.getSubtasks()));
-        System.out.println("------------------------------------------------");
 
-        System.out.println("-----------------История просмотра--------------");
+        System.out.println("----------------Создание нового объекта------------");
+        TaskManager newTaskManager = Managers.getDefault();
+        System.out.println("----------------------Сравнение--------------------");
+        System.out.println("-----------------История просмотра №1--------------");
         System.out.println(taskManager.getHistory());
-        System.out.println("------------------------------------------------");
-//
-//        System.out.println("---------");
-//        System.out.println("Проверка Set");
-//        System.out.println(taskManager.getPrioritizedTasks());
-//
-//        System.out.println("---------");
-//        System.out.println("Добавляем Task 4 [LocalDateTime = null]");
-//        //id=8
-//        Task task4 = new Task("Task 4", "Description/Task 4",
-//                null, 0);
-//        taskManager.addNewTask(task4);
-//        System.out.println(task4);
-//
-//        System.out.println("---------");
-//        System.out.println("Проверка Set");
-//        System.out.println(taskManager.getPrioritizedTasks());
-//
-//        System.out.println("---------");
-//        System.out.println("Параметры Epic1:");
-//        System.out.println("Время начала: " + epic1.getStartTime());
-//        System.out.println("Длительность в минутах: " + epic1.getDuration());
-//        System.out.println("Время окончания: " + epic1.getEndTime());
-//        System.out.println("Заход в тест1");
-//        try {
-//            System.out.println("Заход в тест2");
-//            HttpClient client = HttpClient.newHttpClient();
-//            URI url = URI.create("http://localhost:8080/tasks/task/");
-//            HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
-//            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-//            System.out.println(response.body());
-////            String a = response.body();
-//        } catch (IOException | InterruptedException exception) {
-//            exception.printStackTrace();
-//        }
-
+        System.out.println("-----------------История просмотра №2--------------");
+        System.out.println(newTaskManager.getHistory());
+        System.out.println("----------------Все tasks объекта №1---------------");
+        System.out.println(taskManager.getTasks());
+        System.out.println("----------------Все tasks объекта №2---------------");
+        System.out.println(newTaskManager.getTasks());
+        System.out.println("---------------Все subtasks объекта №1--------------");
+        System.out.println(taskManager.getSubtasks());
+        System.out.println("---------------Все subtasks объекта №2--------------");
+        System.out.println(newTaskManager.getSubtasks());
+        System.out.println("----------------Все epics объекта №1---------------");
+        System.out.println(taskManager.getEpics());
+        System.out.println("----------------Все epics объекта №2---------------");
+        System.out.println(newTaskManager.getEpics());
+        System.out.println("--------Список задач по приоритету (объект №1)-------");
+        System.out.println(taskManager.getPrioritizedTasks());
+        System.out.println("--------Список задач по приоритету (объект №2)-------");
+        System.out.println(newTaskManager.getPrioritizedTasks());
+        kvServer.stop();
     }
 }

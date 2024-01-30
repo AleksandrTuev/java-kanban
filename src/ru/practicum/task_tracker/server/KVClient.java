@@ -25,7 +25,7 @@ public class KVClient {
             HttpResponse <String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() == 404){
-                System.out.println("Error");
+                System.out.println("Error. Информация по " + key + " отсутствует");
                 return null;
             }
 

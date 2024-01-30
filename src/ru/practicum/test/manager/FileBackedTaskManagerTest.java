@@ -13,10 +13,10 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager>{
         taskManager = new FileBackedTaskManager(TEST_FILE);
     }
 
-//    @AfterAll
-//    public static void tearDown() throws IOException {
-//        TEST_FILE.delete();
-//    }
+    @AfterAll
+    public static void tearDown() throws IOException {
+        TEST_FILE.delete();
+    }
 
     @Test
     public void shouldLoadFromFile(){

@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public abstract class TaskManagerTest<T extends TaskManager> {
     T taskManager;
 
-    private void creatingTasks(){
+    public void creatingTasks(){
         //id=1
         Task task1 = new Task("Task1", "Description/Task1",
                 LocalDateTime.of(2024, 1, 15,21,30), 10);
