@@ -13,12 +13,12 @@ import java.util.stream.Collectors;
 
 public class HttpTaskManager extends FileBackedTaskManager {
     private final Gson gson;
-    private final KVClient client;
+    private final KVClient kvClient;
 
     public HttpTaskManager(){
         super(null);
         gson = Managers.getGson();
-        client = new KVClient();
+        kvClient = new KVClient();
         load();
     }
 
@@ -45,28 +45,28 @@ public class HttpTaskManager extends FileBackedTaskManager {
     }
 
     private void load() {
-        String tasksStr = client.load("tasks");
+        String tasksStr = kvClient.load("tasks");
         if (tasksStr != null){
             ArrayList<Task> tasks = gson.fromJson(tasksStr, new TypeToken<ArrayList<Task>>() {
             }.getType());
             addTasks(tasks);
         }
 
-        String epicsStr = client.load("epics");
+        String epicsStr = kvClient.load("epics");
         if (epicsStr != null){
             ArrayList<Epic> epics = gson.fromJson(epicsStr, new TypeToken<ArrayList<Epic>>() {
             }.getType());
             addTasks(epics);
         }
 
-        String subtasksStr = client.load("subtasks");
+        String subtasksStr = kvClient.load("subtasks");
         if (subtasksStr != null) {
             ArrayList<Subtask> subtasks = gson.fromJson(subtasksStr, new TypeToken<ArrayList<Subtask>>() {
             }.getType());
             addTasks(subtasks);
         }
 
-        String historyStr = client.load("history");
+        String historyStr = kvClient.load("history");
         if (historyStr != null){
             List<Integer> history = gson.fromJson(historyStr, new TypeToken<ArrayList<Integer>>() {
             }.getType());
@@ -89,12 +89,12 @@ public class HttpTaskManager extends FileBackedTaskManager {
     @Override
     protected void save(){
         String jsonTasks = gson.toJson(new ArrayList<>(tasks.values()));
-        client.put("tasks", jsonTasks);
+        kvClient.put("tasks", jsonTasks);
         String jsonSubtasks = gson.toJson(new ArrayList<>(subtasks.values()));
-        client.put("subtasks", jsonSubtasks);
+        kvClient.put("subtasks", jsonSubtasks);
         String jsonEpics = gson.toJson(new ArrayList<>(epics.values()));
-        client.put("epics", jsonEpics);
+        kvClient.put("epics", jsonEpics);
         String jsonHistory = gson.toJson(historyManager.getHistory().stream().map(Task::getId).collect(Collectors.toList()));
-        client.put("history", jsonHistory);
+        kvClient.put("history", jsonHistory);
     }
 }

@@ -1,5 +1,6 @@
 import manager.Managers;
 import manager.TaskManager;
+import server.HttpTaskServer;
 import server.KVServer;
 import tasks.Epic;
 import tasks.Subtask;
@@ -12,6 +13,8 @@ public class Main {
     public static void main(String[] args) throws IOException {
         KVServer kvServer = Managers.getDefaultKVServer();
         TaskManager taskManager = Managers.getDefault();
+        HttpTaskServer server = new HttpTaskServer(taskManager);
+        server.start();
 
         //id=1
         Task task1 = new Task("Task 1", "Description/Task 1",
@@ -62,5 +65,6 @@ public class Main {
         System.out.println("--------Список задач по приоритету (объект №2)-------");
         System.out.println(newTaskManager.getPrioritizedTasks());
         kvServer.stop();
+        server.stop();
     }
 }

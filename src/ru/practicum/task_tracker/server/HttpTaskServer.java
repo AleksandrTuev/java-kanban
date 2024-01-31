@@ -23,7 +23,11 @@ public class HttpTaskServer{
     private final TaskManager taskManager;
 
     public HttpTaskServer() throws IOException {
-        taskManager = Managers.getDefault();
+        this(Managers.getDefault());
+    }
+
+    public HttpTaskServer(TaskManager taskManager) throws IOException {
+        this.taskManager = taskManager;
         gson = Managers.getGson();
         server = HttpServer.create(new InetSocketAddress("localhost", PORT), 0);
         server.createContext("/tasks/task", this::TaskHandler);
@@ -115,7 +119,7 @@ public class HttpTaskServer{
         }
     }
 
-    public void SubtaskHandler(HttpExchange exchange) throws IOException {
+    public void SubtaskHandler(HttpExchange exchange) {
         try {
             String method = exchange.getRequestMethod();
             String query = extractQuery(exchange);
@@ -185,7 +189,7 @@ public class HttpTaskServer{
         }
     }
 
-    public void EpicHandler(HttpExchange exchange) throws IOException {
+    public void EpicHandler(HttpExchange exchange) {
         try {
             String method = exchange.getRequestMethod();
             String query = extractQuery(exchange);
@@ -256,7 +260,7 @@ public class HttpTaskServer{
         }
     }
 
-    public void HistoryHandler(HttpExchange exchange) throws IOException {
+    public void HistoryHandler(HttpExchange exchange) {
         try {
             String method = exchange.getRequestMethod();
 
@@ -275,7 +279,7 @@ public class HttpTaskServer{
         }
     }
 
-    public void TasksHandler(HttpExchange exchange) throws IOException {
+    public void TasksHandler(HttpExchange exchange) {
         try {
             String method = exchange.getRequestMethod();
             switch (method){
